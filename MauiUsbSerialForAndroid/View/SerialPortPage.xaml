@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiUsbSerialForAndroid.ViewModel"
+             xmlns:model="clr-namespace:MauiUsbSerialForAndroid.Model"
+             xmlns:converter="clr-namespace:MauiUsbSerialForAndroid.Converter"
+             x:DataType="viewmodel:SerialPortViewModel"
+             x:Class="MauiUsbSerialForAndroid.View.SerialPortPage"
+             Title="SerialPortDebug">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <Style TargetType="Label" x:Key="lblName">
+            <Setter Property="TextColor" Value="{StaticResource Gray300}" />
+            <Setter Property="WidthRequest" Value="100" />
+        </Style>
+        <Style TargetType="Label" x:Key="lblValue">
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+        </Style>
+        <converter:IntToHexConverter x:Key="toHex"/>
+    </ContentPage.Resources>
+
+    <CollectionView ItemsSource="{Binding UsbDevices}" Margin="10" SelectionMode="None" EmptyView="No devices found">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:UsbDeviceInfo">
+                <Frame>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource  AncestorType={x:Type viewmodel:SerialPortViewModel}}, Path=OpenCommand}" CommandParameter="{Binding .}"/>
+                    </Frame.GestureRecognizers>
+                    <StackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding DriverName}" FontSize="20" FontAttributes="Bold" HorizontalOptions="StartAndExpand">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding DriverName}" Value="">
+                                        <Setter Property="Text" Value="Unknown Driver"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="DeviceName"  Style="{StaticResource lblName}"/>
+                            <Label Text="{Binding Device.DeviceName}"  Style="{StaticResource lblValue}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="ProductName"  Style="{StaticResource lblName}"/>
+                            <Label Text="{Binding Device.ProductName}"  Style="{StaticResource lblValue}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="Manufacture"  Style="{StaticResource lblName}"/>
+                            <Label Text="{Binding Device.ManufacturerName,TargetNullValue='Unknown'}"  Style="{StaticResource lblValue}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="VendorId"  Style="{StaticResource lblName}"/>
+                            <Label Text="{Binding Device.VendorId, Converter={StaticResource toHex}}"  Style="{StaticResource lblValue}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout>
+                            <Label Text="ProductId"  Style="{StaticResource lblName}"/>
+                            <Label Text="{Binding Device.ProductId, Converter={StaticResource toHex}}"  Style="{StaticResource lblValue}"/>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <!--TODO 没有效果,以后再看-->
+        <!--
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                    <Label Text="No devices found" TextColor="OrangeRed" FontSize="Large" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            -->
+    </CollectionView>
+</ContentPage>

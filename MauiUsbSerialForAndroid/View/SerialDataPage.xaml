@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiUsbSerialForAndroid.ViewModel"
+             xmlns:model="clr-namespace:MauiUsbSerialForAndroid.Model"
+             xmlns:converter="clr-namespace:MauiUsbSerialForAndroid.Converter"
+             x:DataType="viewmodel:SerialDataViewModel"
+             x:Class="MauiUsbSerialForAndroid.View.SerialDataPage"
+             Title="{Binding DeviceInfo.DriverName}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"/>
+    </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="Margin" Value="10,0,0,0"/>
+        </Style>
+        <converter:InverseBooleanConverter x:Key="InverseBool"/>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="Auto,Auto,38,*,Auto,Auto" Margin="10" RowSpacing="5">
+        <HorizontalStackLayout>
+            <Picker ItemsSource="{Binding AllEncoding}" SelectedItem="{Binding EncodingReceive}" WidthRequest="80" Title="Please select receive encoding" HorizontalTextAlignment="Center"/>
+            <CheckBox IsChecked="{Binding ShowTimeStamp}"/>
+            <Label Text="ShowTimeStamp"/>
+            <CheckBox IsChecked="{Binding AutoScroll}"/>
+            <Label Text="AutoScroll"/>
+        </HorizontalStackLayout>
+
+        <StackLayout Grid.Row="1" Orientation="Horizontal">
+            <Border BackgroundColor="Green" WidthRequest="20" HeightRequest="20"/>
+            <Label Text="Send" TextColor="Green" Margin="0,0,10,0"/>
+            <Border BackgroundColor="Blue" WidthRequest="20" HeightRequest="20"/>
+            <Label Text="Receive" TextColor="Blue" Margin="0,0,10,0"/>
+            <Label Text="Sub interval(ms)" HorizontalOptions="EndAndExpand"/>
+            <Entry Text="{Binding IntervalReceive}" WidthRequest="80" Keyboard="Numeric" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            <Button Text="Clear" Command="{Binding ClearCommand}"/>
+        </StackLayout>
+        <HorizontalStackLayout Grid.Row="2">
+
+        </HorizontalStackLayout>
+
+        <Border  Grid.Row="3">
+            <CollectionView ItemsSource="{Binding Datas}" EmptyView="No datas" ItemsUpdatingScrollMode="KeepScrollOffset" VerticalScrollBarVisibility="Always">
+                <CollectionView.Triggers>
+                    <DataTrigger TargetType="CollectionView" Binding="{Binding AutoScroll}" Value="True">
+                        <Setter Property="ItemsUpdatingScrollMode" Value="KeepLastItemInView"/>
+                    </DataTrigger>
+                </CollectionView.Triggers>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:SerialLog">
+                        <Grid>
+                            <!--TODO 这样写我觉得很烂,颜色应该前端指定,还没想到更好的写法 -->
+                            <Label LineBreakMode="WordWrap" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SerialDataViewModel}},Path=ShowTimeStamp}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding TimeString}" TextColor="{StaticResource Gray300}" />
+                                        <Span Text="{Binding Data}" TextColor="{Binding Color}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Text="{Binding Data}" TextColor="{Binding Color}" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SerialDataViewModel}},Path=ShowTimeStamp, Converter={StaticResource InverseBool}}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+        <StackLayout Orientation="Horizontal" Grid.Row="4">
+            <Editor Text="{Binding SendData}" AutoSize="TextChanges" HorizontalOptions="FillAndExpand" />
+            <Button Text="Send" Command="{Binding SendCommand}" VerticalOptions="CenterAndExpand" IsEnabled="{Binding IsOpen}"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" Grid.Row="5">
+            <Picker ItemsSource="{Binding AllEncoding}" SelectedItem="{Binding EncodingSend}" WidthRequest="80" Title="Please select send encoding" HorizontalTextAlignment="Center"/>
+            <CheckBox x:Name="chkCycleToSend" IsChecked="{Binding CycleToSend}" HorizontalOptions="EndAndExpand" IsEnabled="{Binding IsOpen}"/>
+            <Label x:Name="lblCycleToSend" Text="CycleToSend Delay(ms):" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="lblCycleToSend_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Entry Text="{Binding IntervalSend}" WidthRequest="80" Keyboard="Numeric" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>
