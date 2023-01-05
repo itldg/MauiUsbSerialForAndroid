@@ -5,6 +5,7 @@
              xmlns:model="clr-namespace:MauiUsbSerialForAndroid.Model"
              xmlns:converter="clr-namespace:MauiUsbSerialForAndroid.Converter"
              xmlns:serial="clr-namespace:Hoho.Android.UsbSerial.Driver;assembly=Android.UsbSerial"
+             xmlns:controls="clr-namespace:MauiUsbSerialForAndroid.Controls"
              x:DataType="viewmodel:SerialDataViewModel"
              x:Class="MauiUsbSerialForAndroid.View.SerialDataPage"
              Title="{Binding DeviceInfo.DriverName}">
@@ -14,10 +15,6 @@
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-        </Style>
-        <Style TargetType="CheckBox">
-            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-            <Setter Property="Margin" Value="10,0,0,0"/>
         </Style>
         <converter:InverseBooleanConverter x:Key="InverseBool"/>
     </ContentPage.Resources>
@@ -31,10 +28,8 @@
 
         <HorizontalStackLayout Grid.Row="1">
             <Picker ItemsSource="{Binding AllEncoding}" SelectedItem="{Binding EncodingReceive}" WidthRequest="80" Title="Please select receive encoding" HorizontalTextAlignment="Center"/>
-            <CheckBox IsChecked="{Binding ShowTimeStamp}"/>
-            <Label Text="ShowTimeStamp"/>
-            <CheckBox IsChecked="{Binding AutoScroll}"/>
-            <Label Text="AutoScroll"/>
+            <controls:CheckBoxAndText Text="ShowTimeStamp" IsChecked="{Binding ShowTimeStamp}"/>
+            <controls:CheckBoxAndText Text="AutoScroll" IsChecked="{Binding AutoScroll}"/>
         </HorizontalStackLayout>
 
         <StackLayout Grid.Row="2" Orientation="Horizontal">
@@ -84,12 +79,7 @@
 
         <StackLayout Orientation="Horizontal" Grid.Row="5">
             <Picker ItemsSource="{Binding AllEncoding}" SelectedItem="{Binding EncodingSend}" WidthRequest="80" Title="Please select send encoding" HorizontalTextAlignment="Center"/>
-            <CheckBox x:Name="chkCycleToSend" IsChecked="{Binding CycleToSend}" HorizontalOptions="EndAndExpand" IsEnabled="{Binding IsOpen}"/>
-            <Label x:Name="lblCycleToSend" Text="CycleToSend Delay(ms):" >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="lblCycleToSend_Tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
+            <controls:CheckBoxAndText Text="CycleToSend Delay(ms):" IsChecked="{Binding CycleToSend}" IsEnabled="{Binding IsOpen}" HorizontalOptions="EndAndExpand"/>
             <Entry Text="{Binding IntervalSend}" WidthRequest="80" Keyboard="Numeric" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         </StackLayout>
     </Grid>

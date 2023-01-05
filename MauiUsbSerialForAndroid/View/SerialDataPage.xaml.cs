@@ -13,11 +13,6 @@ public partial class SerialDataPage : ContentPage
         this.BindingContext = vm = viewModel;
     }
 
-    private void lblCycleToSend_Tapped(object sender, TappedEventArgs e)
-    {
-        chkCycleToSend.IsChecked = !chkCycleToSend.IsChecked;
-    }
-
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         vm.SerialOptionChangeCommand.Execute(null);
