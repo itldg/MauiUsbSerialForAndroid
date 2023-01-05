@@ -21,7 +21,10 @@
         <converter:IntToHexConverter x:Key="toHex"/>
     </ContentPage.Resources>
 
-    <CollectionView ItemsSource="{Binding UsbDevices}" Margin="10" SelectionMode="None" EmptyView="No devices found">
+    <CollectionView ItemsSource="{Binding UsbDevices}" Margin="10" SelectionMode="None">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+        </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:UsbDeviceInfo">
                 <Frame>
@@ -62,13 +65,11 @@
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-        <!--TODO 没有效果,以后再看-->
-        <!--
-            <CollectionView.EmptyView>
-                <VerticalStackLayout VerticalOptions="CenterAndExpand">
-                    <Label Text="No devices found" TextColor="OrangeRed" FontSize="Large" HorizontalTextAlignment="Center"/>
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
-            -->
+        <CollectionView.EmptyView>
+            <VerticalStackLayout VerticalOptions="CenterAndExpand">
+                <Label Text="No devices found" TextColor="OrangeRed" FontSize="Large" HorizontalTextAlignment="Center"/>
+                <Label Text="Please insert USB Serial" HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+        </CollectionView.EmptyView>
     </CollectionView>
 </ContentPage>
