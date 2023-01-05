@@ -2,18 +2,33 @@
 
 Android USB Serial Debugging Tool Built Using Maui
 
-Ê¹ÓÃMaui¹¹½¨µÄAndroid USB´®¿Úµ÷ÊÔ¹¤¾ß
+ä½¿ç”¨Mauiæ„å»ºçš„Android USBä¸²å£è°ƒè¯•å·¥å…·
+
+[GitHub](https://github.com/itldg/MauiUsbSerialForAndroid) | [Gitee](https://gitee.com/itldg/maui-usb-serial-for-android)
+
+## Preview
+
+<table>
+<tr>
+<td width="30%">
+<img src="imgs/main.png"/>
+</td>
+<td width="30%">
+<img src="imgs/data.png"/>
+</td>
+<tr>
+</table>
 
 ## Author, License, and Copyright
 
 The serial communication part is completed by [xamarin-usb-serial-for-android-2019](https://github.com/Jignesh-Darji/xamarin-usb-serial-for-android-2019)
 
-´®¿ÚÍ¨Ñ¶²¿·ÖÊ¹ÓÃ[xamarin-usb-serial-for-android-2019](https://github.com/Jignesh-Darji/xamarin-usb-serial-for-android-2019)Íê³É
+ä¸²å£é€šè®¯éƒ¨åˆ†ä½¿ç”¨[xamarin-usb-serial-for-android-2019](https://github.com/Jignesh-Darji/xamarin-usb-serial-for-android-2019)å®Œæˆ
 
 This library is licensed under LGPL Version 2.1. Please see LICENSE.txt for the complete license.
 
-¸Ã¿âÔÚLGPL°æ±¾2.1ÏÂ»ñµÃĞí¿É¡£Çë²ÎÔÄLICENSE.txtÒÔ»ñÈ¡ÍêÕûµÄĞí¿ÉÖ¤¡£
+è¯¥åº“åœ¨LGPLç‰ˆæœ¬2.1ä¸‹è·å¾—è®¸å¯ã€‚è¯·å‚é˜…LICENSE.txtä»¥è·å–å®Œæ•´çš„è®¸å¯è¯ã€‚
 
 Portions of this library are based on the [xamarin-usb-serial-for-android](https://github.com/anotherlab/xamarin-usb-serial-for-android), [usb-serial-for-android](https://github.com/mik3y/usb-serial-for-android) and [XamarinUsbSerial](https://bitbucket.org/lusovu/xamarinusbserial) libraries.  Their rights remain intact.
 
-¸Ã¿âµÄÄ³Ğ©²¿·Ö»ùÓÚ [xamarin-usb-serial-for-android](https://github.com/anotherlab/xamarin-usb-serial-for-android)£¬[usb-serial-for-android](https://github.com/mik3y/usb-serial-for-android) ºÍ [XamarinUsbSerial](https://bitbucket.org/lusovu/xamarinusbserial) ¿â¡£ËûÃÇµÄÈ¨Àû±£³Ö²»±ä¡£
+è¯¥åº“çš„æŸäº›éƒ¨åˆ†åŸºäº [xamarin-usb-serial-for-android](https://github.com/anotherlab/xamarin-usb-serial-for-android)ï¼Œ[usb-serial-for-android](https://github.com/mik3y/usb-serial-for-android) å’Œ [XamarinUsbSerial](https://bitbucket.org/lusovu/xamarinusbserial) åº“ã€‚ä»–ä»¬çš„æƒåˆ©ä¿æŒä¸å˜ã€‚
