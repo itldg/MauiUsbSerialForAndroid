@@ -71,7 +71,7 @@
 
 	<ItemGroup>
 	  <Reference Include="Android.UsbSerial">
-	    <HintPath>..\..\..\..\Git\xamarin-usb-serial-for-android-2019\UsbSerialForAndroid\bin\Debug\Android.UsbSerial.dll</HintPath>
+	    <HintPath>Lib\Android.UsbSerial.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 
