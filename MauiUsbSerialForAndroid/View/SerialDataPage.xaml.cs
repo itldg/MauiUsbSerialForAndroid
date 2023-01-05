@@ -1,3 +1,4 @@
+using Hoho.Android.UsbSerial.Driver;
 using MauiUsbSerialForAndroid.ViewModel;
 using System.Runtime.CompilerServices;
 
@@ -15,5 +16,10 @@ public partial class SerialDataPage : ContentPage
     private void lblCycleToSend_Tapped(object sender, TappedEventArgs e)
     {
         chkCycleToSend.IsChecked = !chkCycleToSend.IsChecked;
+    }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        vm.SerialOptionChangeCommand.Execute(null);
     }
 }

@@ -31,6 +31,7 @@ namespace MauiUsbSerialForAndroid.Helper
         static int interval = 50;
         static Subject<byte[]> dataSubject = new Subject<byte[]>();
         const int WRITE_WAIT_MILLIS = 1000;
+
         public static IObservable<byte[]> WhenDataReceived() => dataSubject;
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace MauiUsbSerialForAndroid.Helper
             return "";
         }
 
-        public static string Open(UsbDeviceInfo usbDeviceInfo)
+        public static string Open(UsbDeviceInfo usbDeviceInfo, SerialOption option)
         {
             timerData?.Stop();
             timerData = new System.Timers.Timer(interval);
@@ -90,10 +91,10 @@ namespace MauiUsbSerialForAndroid.Helper
             }
             serialIoManager = new SerialInputOutputManager(_port)
             {
-                BaudRate = 19200,
-                DataBits = 8,
-                StopBits = StopBits.One,
-                Parity = Parity.None,
+                BaudRate = option.BaudRate,
+                DataBits = option.DataBits,
+                Parity = option.Parity,
+                StopBits = option.StopBits
             };
             serialIoManager.DataReceived += SerialIoManager_DataReceived;
             try
@@ -107,6 +108,14 @@ namespace MauiUsbSerialForAndroid.Helper
                 return ex.Message;
             }
             return "";
+        }
+
+        public static void SetOption(SerialOption option)
+        {
+            if (serialIoManager != null)
+            {
+                _port.SetParameters(option.BaudRate, option.DataBits, option.StopBits, option.Parity);
+            }
         }
 
         private static void TimerData_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

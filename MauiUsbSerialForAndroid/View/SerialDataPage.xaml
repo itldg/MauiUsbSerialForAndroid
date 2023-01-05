@@ -4,6 +4,7 @@
              xmlns:viewmodel="clr-namespace:MauiUsbSerialForAndroid.ViewModel"
              xmlns:model="clr-namespace:MauiUsbSerialForAndroid.Model"
              xmlns:converter="clr-namespace:MauiUsbSerialForAndroid.Converter"
+             xmlns:serial="clr-namespace:Hoho.Android.UsbSerial.Driver;assembly=Android.UsbSerial"
              x:DataType="viewmodel:SerialDataViewModel"
              x:Class="MauiUsbSerialForAndroid.View.SerialDataPage"
              Title="{Binding DeviceInfo.DriverName}">
@@ -20,8 +21,15 @@
         </Style>
         <converter:InverseBooleanConverter x:Key="InverseBool"/>
     </ContentPage.Resources>
-    <Grid RowDefinitions="Auto,Auto,38,*,Auto,Auto" Margin="10" RowSpacing="5">
-        <HorizontalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto" Margin="10" RowSpacing="5">
+        <Grid ColumnDefinitions="*,*,*,*">
+            <Picker ItemsSource="{Binding AllBaudRate}" SelectedIndexChanged="Picker_SelectedIndexChanged" SelectedItem="{Binding SerialOption.BaudRate}" WidthRequest="80" Title="Please select BaudRate" HorizontalTextAlignment="Center"/>
+            <Picker ItemsSource="{Binding AllDataBits}" SelectedIndexChanged="Picker_SelectedIndexChanged" SelectedItem="{Binding SerialOption.DataBits}" WidthRequest="80" Title="Please select DataBits" HorizontalTextAlignment="Center" Grid.Column="1"/>
+            <Picker ItemsSource="{Binding AllStopBits}" SelectedIndexChanged="Picker_SelectedIndexChanged" SelectedItem="{Binding SerialOption.StopBitsName}" WidthRequest="80" Title="Please select StopBits" HorizontalTextAlignment="Center" Grid.Column="2"/>
+            <Picker ItemsSource="{Binding AllParity}" SelectedIndexChanged="Picker_SelectedIndexChanged" SelectedItem="{Binding SerialOption.ParityName}" WidthRequest="80" Title="Please select Parity" HorizontalTextAlignment="Center" Grid.Column="3"/>
+        </Grid>
+
+        <HorizontalStackLayout Grid.Row="1">
             <Picker ItemsSource="{Binding AllEncoding}" SelectedItem="{Binding EncodingReceive}" WidthRequest="80" Title="Please select receive encoding" HorizontalTextAlignment="Center"/>
             <CheckBox IsChecked="{Binding ShowTimeStamp}"/>
             <Label Text="ShowTimeStamp"/>
@@ -29,7 +37,7 @@
             <Label Text="AutoScroll"/>
         </HorizontalStackLayout>
 
-        <StackLayout Grid.Row="1" Orientation="Horizontal">
+        <StackLayout Grid.Row="2" Orientation="Horizontal">
             <Border BackgroundColor="Green" WidthRequest="20" HeightRequest="20"/>
             <Label Text="Send" TextColor="Green" Margin="0,0,10,0"/>
             <Border BackgroundColor="Blue" WidthRequest="20" HeightRequest="20"/>
@@ -38,9 +46,7 @@
             <Entry Text="{Binding IntervalReceive}" WidthRequest="80" Keyboard="Numeric" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             <Button Text="Clear" Command="{Binding ClearCommand}"/>
         </StackLayout>
-        <HorizontalStackLayout Grid.Row="2">
 
-        </HorizontalStackLayout>
 
         <Border  Grid.Row="3">
             <CollectionView ItemsSource="{Binding Datas}" EmptyView="No datas" ItemsUpdatingScrollMode="KeepScrollOffset" VerticalScrollBarVisibility="Always">

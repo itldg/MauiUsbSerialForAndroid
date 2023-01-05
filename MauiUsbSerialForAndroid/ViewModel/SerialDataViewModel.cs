@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Hoho.Android.UsbSerial.Driver;
 using MauiUsbSerialForAndroid.Helper;
 using MauiUsbSerialForAndroid.Model;
 using System.Collections.ObjectModel;
@@ -15,6 +16,11 @@ namespace MauiUsbSerialForAndroid.ViewModel
         public UsbDeviceInfo DeviceInfo { get; set; }
 
         public string[] AllEncoding { get; } = new string[] { "HEX", "ASCII", "UTF-8", "GBK", "GB2312", "Unicode" };
+        public int[] AllBaudRate { get; } = new[] { 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 43000, 57600, 76800, 115200, 128000, 230400, 256000, 460800, 921600, 1382400 };
+        public int[] AllDataBits { get; } = new[] { 5, 6, 7, 8 };
+        public string[] AllParity { get; } = Enum.GetNames(typeof(Parity));
+        public string[] AllStopBits { get; } = Enum.GetNames(typeof(StopBits));
+
         [ObservableProperty]
         string encodingSend = "HEX";
         [ObservableProperty]
@@ -31,8 +37,9 @@ namespace MauiUsbSerialForAndroid.ViewModel
         bool autoScroll = true;
         [ObservableProperty]
         string sendData = "";
-
-
+        [ObservableProperty]
+        SerialOption serialOption = new SerialOption();
+        
         public ObservableCollection<SerialLog> Datas { get; } = new();
         System.Timers.Timer timerSend;
         public SerialDataViewModel()
@@ -131,7 +138,7 @@ namespace MauiUsbSerialForAndroid.ViewModel
                 string r = await SerialPortHelper.RequestPermissionAsync(DeviceInfo);
                 if (SerialPortHelper.CheckError(r, showDialog: false))
                 {
-                    r = SerialPortHelper.Open(DeviceInfo);
+                    r = SerialPortHelper.Open(DeviceInfo, SerialOption);
                     if (SerialPortHelper.CheckError(r, showDialog: false))
                     {
                         IsOpen = true;
@@ -205,6 +212,11 @@ namespace MauiUsbSerialForAndroid.ViewModel
             Datas.Add(serialLog);
             //fix VirtualView cannot be null here
             Task.Delay(50);
+        }
+        [RelayCommand]
+        void SerialOptionChange()
+        {
+            SerialPortHelper.SetOption(serialOption);
         }
     }
 }
